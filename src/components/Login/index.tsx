@@ -1,3 +1,4 @@
+import React from 'react';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 
@@ -22,10 +23,18 @@ function Login () {
   /**
    * Controle les champs d'email et de password
    */
-  const handleChange = (e: { target: { value: any; name: any; }; }) => {
-    dispatch(handleFieldChange({
-      value: e.target.value,
-      name: e.target.name}));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    type ChangeFieldPayload = {
+      value: string,
+      name: string,
+    }
+    const value2: {value: string, name: string} = {value: e.target.value, name: e.target.name};
+    dispatch(handleFieldChange({  
+      value2
+      // value: e.target.value,
+      // name: e.target.name,
+    },
+    ));
   };
   /**
    * Ferme les modales de connexion et d'inscription
