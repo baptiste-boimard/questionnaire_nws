@@ -2,7 +2,7 @@ import { createSlice} from "@reduxjs/toolkit";
 
 interface LoginState {
   isOpenLogin: boolean,
-  isOpenSignup: boolean
+  isOpenSignup: boolean,
 }
 
 const initialState: LoginState = {
