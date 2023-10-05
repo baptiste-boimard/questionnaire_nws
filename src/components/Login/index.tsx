@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 // == IMPORT ACTIONS ==
 import { closeModal } from '../../slices/login';
 import { handleFieldChange } from '../../slices/utilities';
-import { fetchUser, addUserToState } from '../../slices/auth';
+import { fetchUser } from '../../slices/auth';
 
 function Login () {
   const dispatch = useAppDispatch();
@@ -41,10 +41,9 @@ function Login () {
   /**
    * Soumet email/password au middleware de connexion
    */
-  const handleSubmitLogin = (e: React.SyntheticEvent) => {
+  const handleSubmitLogin = (e: React.FormEvent) => {
     console.log('submit',email, password);
     e.preventDefault();    
-    dispatch(addUserToState(email))
     dispatch(fetchUser({email, password}));
   }
 

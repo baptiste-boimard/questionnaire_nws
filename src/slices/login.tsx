@@ -1,17 +1,18 @@
 import { createSlice} from "@reduxjs/toolkit";
 
-
+// == INTERFACE ET TYPE ==
 interface LoginState {
   isOpenLogin: boolean,
   isOpenSignup: boolean,
 }
 
+// == INITIALSTATE ==
 const initialState: LoginState = {
   isOpenLogin: false,
   isOpenSignup: false,
 };
 
-
+// == SLICE ==
 const loginSlice = createSlice({
   name: "login",
   initialState,
@@ -33,5 +34,4 @@ const loginSlice = createSlice({
 });
 
 export const { openLogin, openSignup, closeModal } = loginSlice.actions;
-
 export default loginSlice.reducer;
