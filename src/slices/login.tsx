@@ -1,4 +1,5 @@
-import { createSlice} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+
 
 interface LoginState {
   isOpenLogin: boolean,
@@ -9,6 +10,7 @@ const initialState: LoginState = {
   isOpenLogin: false,
   isOpenSignup: false,
 };
+
 
 const loginSlice = createSlice({
   name: "login",
