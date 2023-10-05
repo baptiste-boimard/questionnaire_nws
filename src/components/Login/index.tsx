@@ -28,13 +28,8 @@ function Login () {
       value: string,
       name: string,
     }
-    const value2: {value: string, name: string} = {value: e.target.value, name: e.target.name};
-    dispatch(handleFieldChange({  
-      value2
-      // value: e.target.value,
-      // name: e.target.name,
-    },
-    ));
+    const changePayload: ChangeFieldPayload = {value: e.target.value, name: e.target.name};
+    dispatch(handleFieldChange(changePayload));
   };
   /**
    * Ferme les modales de connexion et d'inscription

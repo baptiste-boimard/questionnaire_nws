@@ -1,4 +1,4 @@
-import { createSlice} from "@reduxjs/toolkit";
+import { createSlice, PayloadAction} from "@reduxjs/toolkit";
 
 interface UtilitiesState {
   email: string,
@@ -14,7 +14,7 @@ const utilitiesSlice = createSlice({
   name: "utilities",
   initialState,
   reducers: {
-    handleFieldChange : (state: UtilitiesState, action) => {
+    handleFieldChange : (state: UtilitiesState, action: PayloadAction<{name: string, value: string}>) => {      
       return {
         ...state,
         [action.payload.name]: action.payload.value,
