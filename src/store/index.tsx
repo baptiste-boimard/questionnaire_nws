@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+import { ThunkAction } from 'redux-thunk';
 
 // == IMPORT REDUCER ==
 import rootReducer from '../reducers';
@@ -13,5 +14,12 @@ const store = configureStore({
 pour typer useSelector et useDispatch dans hooks.tsx*/
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
+
+// export type AppThunk<ReturnType = void> = ThunkAction<
+//   ReturnType,
+//   RootState,
+//   unknown,
+//   UnknownAction
+// >
 
 export default store;

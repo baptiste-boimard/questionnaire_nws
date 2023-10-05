@@ -1,7 +1,7 @@
 const loginController = {
 
-  async login() {
-    console.log('login');
+  async login(req: any) {
+    console.log('login', req.body);
   },
   async signup() {
     console.log('signup');
