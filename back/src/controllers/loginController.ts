@@ -3,10 +3,11 @@ const loginController = {
 
   async login(req: Request, res: Response) {
     console.log('login', req.body);
-    res.send("CA marche !!");
+    res.send("login CA marche !!");
   },
-  async signup() {
-    console.log('signup');
+  async signup(req: Request, res: Response) {
+    console.log('signup', req.body);
+    res.send("signup ca marche !!")
     
   }
 };

@@ -11,7 +11,7 @@ import Form from 'react-bootstrap/Form';
 // == IMPORT ACTIONS ==
 import { closeModal } from '../../slices/login';
 import { handleFieldChange } from '../../slices/utilities';
-import { fetchUser } from '../../slices/auth';
+import { fetchUser, signupUser } from '../../slices/auth';
 
 function Login () {
   const dispatch = useAppDispatch();
@@ -45,8 +45,16 @@ function Login () {
     console.log('submit',email, password);
     e.preventDefault();    
     dispatch(fetchUser({email, password}));
+  };
+  /**
+   * Soumet email/password au midlleware d'inscription
+   */
+  const handleSubmitSignup = (e: React.FormEvent) => {
+    console.log('signup', email, password);
+    e.preventDefault();
+    dispatch(signupUser({email, password}));
+    
   }
-
   return (
 
     // == CALL STORE ==
@@ -129,7 +137,7 @@ function Login () {
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>Fermer</Button>
-            <Button variant="primary">Valider</Button>
+            <Button variant="primary" onClick={handleSubmitSignup}>Valider</Button>
           </Modal.Footer>
         </Modal.Dialog>
       </div>

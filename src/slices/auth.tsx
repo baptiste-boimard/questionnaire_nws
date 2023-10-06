@@ -34,6 +34,17 @@ export const fetchUser = createAsyncThunk(
   })
 });
 
+export const signupUser = createAsyncThunk(
+  'auth/signupUser',
+  async(user: User,
+  {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
+  console.log('arrive signupuser', user );
+  return await instance.post('/signup', user)
+  .then((response) => {
+    console.log(response);
+  })
+});
+
 // == SLICE ==
 const authSlice = createSlice({
   name: 'auth',
@@ -47,6 +58,12 @@ const authSlice = createSlice({
       .addCase(fetchUser.fulfilled, (state, action) => {
       })
       .addCase(fetchUser.rejected, (state, action) => {
+      })
+      .addCase(signupUser.pending, (state, action) => {
+      })
+      .addCase(signupUser.fulfilled, (state, action) => {
+      })
+      .addCase(signupUser.rejected, (state, action) => {
       })
   },
 });
