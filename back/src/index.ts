@@ -27,3 +27,6 @@ app.use(express.static('docs'));
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);
 });
+
+// quest_bb_nws@outlook.fr
+// dZQG$*v3aV%:pxH
