@@ -11,7 +11,7 @@ import banner from '../../docs/images/banner.png'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // == IMPORT ACTIONS ==
-import { openLogin, openSignup } from '../../slices/login'
+import { openLogin, openSignup } from '../../slices/modalDisplay'
 
 function Header() {
 const dispatch = useAppDispatch();

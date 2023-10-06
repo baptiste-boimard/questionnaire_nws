@@ -2,26 +2,26 @@ import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 
-import {returnEmailToken} from '../../slices/auth';
+
+// == IMPORT ACTION ==
+import {returnEmailToken} from '../../slices/signup';
 
 function VerifyEmail () {
   const dispatch = useAppDispatch();
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const emailToken = searchParams.get('emailToken');
-
-  console.log(emailToken);
+  const [searchParams] = useSearchParams();
+  const emailToken: string | null = searchParams.get('emailToken');
 
   useEffect(() => {
     if(emailToken) {
       dispatch(returnEmailToken({emailToken}));
+    } else {
+      console.log('Token introuvable...');
     }
-  }, [emailToken]);  
-
+  });  
   return (
-    <div>
-
-    </div>
+    <>
+    </>
   );
 }
 

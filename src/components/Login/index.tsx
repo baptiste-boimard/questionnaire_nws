@@ -7,17 +7,24 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
-
 // == IMPORT ACTIONS ==
-import { closeModal } from '../../slices/login';
+import { closeModal } from '../../slices/modalDisplay';
 import { handleFieldChange } from '../../slices/utilities';
-import { fetchUser, signupUser } from '../../slices/auth';
+import { fetchUser } from '../../slices/auth';
+import { signupUser } from '../../slices/signup';
+
+// == INTERFACE & TYPE ==
+type ChangeFieldPayload = {
+  value: string,
+  name: string,
+};
+
 
 function Login () {
   const dispatch = useAppDispatch();
 
   // == CALL STORE ==
-  const { isOpenLogin, isOpenSignup } = useAppSelector(state => state.loginReducer);
+  const { isOpenLogin, isOpenSignup } = useAppSelector(state => state.modalDisplayReducer);
   const { email, password } = useAppSelector(state => state.utilitiesReducer);
 
   //== ACTIONS ==
@@ -25,10 +32,6 @@ function Login () {
    * Controle les champs d'email et de password
    */
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    type ChangeFieldPayload = {
-      value: string,
-      name: string,
-    }
     const changePayload: ChangeFieldPayload = {value: e.target.value, name: e.target.name};
     dispatch(handleFieldChange(changePayload));
   };
@@ -41,18 +44,18 @@ function Login () {
   /**
    * Soumet email/password au middleware de connexion
    */
-  const handleSubmitLogin = (e: React.FormEvent) => {
-    console.log('submit',email, password);
-    e.preventDefault();    
-    dispatch(fetchUser({email, password}));
+  const handleSubmitLogin = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const user: User = {email, password}
+    dispatch(fetchUser(user));
   };
   /**
    * Soumet email/password au midlleware d'inscription
    */
-  const handleSubmitSignup = (e: React.FormEvent) => {
-    console.log('signup', email, password);
+  const handleSubmitSignup = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    dispatch(signupUser({email, password}));
+    const user: User = {email, password}
+    dispatch(signupUser(user));
     
   }
   return (

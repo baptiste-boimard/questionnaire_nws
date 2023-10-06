@@ -1,15 +1,17 @@
 import { combineReducers } from 'redux';
 
 // ==-- IMPORT SLICE--==
-import loginSlice from '../slices/login';
+import modalDisplaySlice from '../slices/modalDisplay';
 import utilitiesSlice from '../slices/utilities';
 import authSlice from '../slices/auth';
+import signupSlice from '../slices/signup';
 
 
 const rootReducer = combineReducers({
-  loginReducer: loginSlice,
+  modalDisplayReducer: modalDisplaySlice,
   utilitiesReducer: utilitiesSlice,
   authReducer: authSlice,
+  signup: signupSlice,
 });
 
 export default rootReducer;

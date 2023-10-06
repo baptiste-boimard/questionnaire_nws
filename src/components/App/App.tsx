@@ -6,6 +6,7 @@ import { useAppSelector } from '../../hooks';
 import Header from '../Header';
 import Login from '../Login';
 import VerifyEmail from '../VerifyEmail';
+import Home from '../Home';
 
 
 import './App.css';
@@ -13,13 +14,14 @@ import './App.css';
 function App() {
 
   // == CALL STORE ==
-  const { isOpenLogin, isOpenSignup } = useAppSelector(state => state.loginReducer);
+  const { isOpenLogin, isOpenSignup } = useAppSelector(state => state.modalDisplayReducer);
 
   return (
     <div className="App">
         <Header />
         {((isOpenLogin || isOpenSignup) && <Login />)}
         <Routes>
+          <Route path='/' element={<Home/>}/>
           <Route path='/verify-email' element= {<VerifyEmail/>}/>
         </Routes>
     </div>
