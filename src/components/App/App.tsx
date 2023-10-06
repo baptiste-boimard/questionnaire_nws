@@ -1,9 +1,11 @@
 import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
 
 //== IMPORT COMPONENTS ==
 import Header from '../Header';
 import Login from '../Login';
+import VerifyEmail from '../VerifyEmail';
 
 
 import './App.css';
@@ -15,8 +17,11 @@ function App() {
 
   return (
     <div className="App">
-      <Header />
-      {((isOpenLogin || isOpenSignup) && <Login />)}
+        <Header />
+        {((isOpenLogin || isOpenSignup) && <Login />)}
+        <Routes>
+          <Route path='/verify-email' element= {<VerifyEmail/>}/>
+        </Routes>
     </div>
   );
 }

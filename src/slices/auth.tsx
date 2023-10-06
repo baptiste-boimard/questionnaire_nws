@@ -45,6 +45,25 @@ export const signupUser = createAsyncThunk(
   })
 });
 
+type EmailToken = {
+  emailToken: string
+};
+
+export const returnEmailToken = createAsyncThunk(
+  'auth/returnEmailToken',
+  async(emailToken: EmailToken,
+  {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
+  return await instance.post('/return-email-validation', emailToken)
+  .then((response) => {
+    console.log('retour validaiton du back', response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+    
+  })
+  }
+)
+
 // == SLICE ==
 const authSlice = createSlice({
   name: 'auth',
