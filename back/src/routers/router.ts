@@ -1,12 +1,12 @@
 import loginController from '../controllers/loginController';
+import signupController from '../controllers/signupController';
 const express = require('express');
 
 const router = express.Router();
 
-router.post('/signup', loginController.signup);
+router.post('/signup', signupController.signup);
 router.post('/login', loginController.login);
-router.post('/verify-email', loginController.verifyEmail);
-router.post('/return-email-validation', loginController.returnToken);
+router.post('/return-email-validation', signupController.returnToken);
 
 
 module.exports = router;

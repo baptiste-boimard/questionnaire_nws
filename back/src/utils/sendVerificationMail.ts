@@ -1,7 +1,14 @@
 import createMailTransporter from './createMailTransporter';
 
-const sendVerificationMail = (user:any) => {
-  console.log(user);
+type User = {
+  email: string,
+  name?: string,
+  password?: string,
+  registred?: boolean,
+  emailToken: string
+}
+
+const sendVerificationMail = (user:User) => {
   
   const transporter = createMailTransporter();
 
