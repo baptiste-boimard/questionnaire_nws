@@ -1,0 +1,20 @@
+.card-bodyContainer {
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+
+    .text {
+      flex-grow: 2;
+      // align-self:flex-start;
+      margin: auto;
+    }
+
+    .buttons {
+      margin-left: auto;
+    
+      .button {
+        padding: 0.2rem;
+        margin:  0.3rem;
+      }
+    }
+  }

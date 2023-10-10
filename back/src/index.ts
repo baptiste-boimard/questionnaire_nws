@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import cors from 'cors';
+// import cors from 'cors';
+import handleError from './handlers/handleError';
+// const handleError = require('./handlers/handleError');
 require('dotenv').config();
 const express = require('express')
 
@@ -42,8 +44,8 @@ app.use((req: Request ,res: Response ,next: NextFunction) => {
 app.use(router);
 app.use(express.static('docs'));
 
-//==--Middleware to catch error--==
-// app.use(handleError);
+// Middleware pour attraper les erreurs
+app.use(handleError);
 
 app.listen(PORT, () => {
   console.log(`Listening on http://localhost:${PORT}`);

@@ -48,7 +48,8 @@ export const returnEmailToken = createAsyncThunk(
     console.log(response.data);
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error, 'retour slice');
+    return rejectWithValue(error.response.data.error);
   })
   }
 )

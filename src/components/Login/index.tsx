@@ -7,6 +7,10 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 
+// == IMORT STYLE ==
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './style.scss';
+
 // == IMPORT ACTIONS ==
 import { closeModal } from '../../slices/modalDisplay';
 import { handleFieldChange } from '../../slices/utilities';
@@ -104,7 +108,7 @@ function Login () {
         </div>
       </Modal>
 
-      <Modal show={isOpenSignup}>
+    <Modal show={isOpenSignup}>
       <div
       className="modal show"
       style={{ display: 'block', position: 'initial' }}
