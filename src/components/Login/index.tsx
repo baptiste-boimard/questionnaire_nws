@@ -12,10 +12,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.scss';
 
 // == IMPORT ACTIONS ==
-import { closeModal } from '../../slices/modalDisplay';
-import { handleFieldChange } from '../../slices/utilities';
-import { fetchUser } from '../../slices/auth';
-import { signupUser } from '../../slices/signup';
+// == IMPORT ACTIONS ==
+import { closeModal } from '../../slices/modalDisplay';import { handleFieldChange } from '../../slices/utilities';
+import { fetchUser, resetErrorMessageLogin } from '../../slices/auth';
+import { signupUser, resetErrorMessageSignup } from '../../slices/signup';
 
 // == INTERFACE & TYPE ==
 type ChangeFieldPayload = {
@@ -30,6 +30,7 @@ function Login () {
   // == CALL STORE ==
   const { isOpenLogin, isOpenSignup } = useAppSelector(state => state.modalDisplayReducer);
   const { email, password } = useAppSelector(state => state.utilitiesReducer);
+  const { errorMessage, errorColor } = useAppSelector(state => state.signupReducer);
 
   //== ACTIONS ==
   /**
@@ -43,6 +44,8 @@ function Login () {
    * Ferme les modales de connexion et d'inscription
    */
   const handleClose = () => {
+    dispatch(resetErrorMessageSignup());
+    dispatch(resetErrorMessageLogin());
     dispatch(closeModal());
   };
   /**
@@ -51,6 +54,7 @@ function Login () {
   const handleSubmitLogin = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const user: User = {email, password}
+    dispatch(resetErrorMessageLogin());
     dispatch(fetchUser(user));
   };
   /**
@@ -59,12 +63,11 @@ function Login () {
   const handleSubmitSignup = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const user: User = {email, password}
+    dispatch(resetErrorMessageSignup());
     dispatch(signupUser(user));
     
   }
   return (
-
-    // == CALL STORE ==
     <>
       <Modal show={isOpenLogin}>
         <div
@@ -142,7 +145,9 @@ function Login () {
             </Form.Group>
           </Form>
           </Modal.Body>
-          <Modal.Footer>
+            {errorColor ? <p className='errorMessage green'>{errorMessage}</p>
+                        : <p className='errorMessage red'>{errorMessage}</p>}
+          <Modal.Footer>       
             <Button variant="secondary" onClick={handleClose}>Fermer</Button>
             <Button variant="primary" onClick={handleSubmitSignup}>Valider</Button>
           </Modal.Footer>

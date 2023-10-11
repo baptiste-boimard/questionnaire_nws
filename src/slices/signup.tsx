@@ -4,7 +4,10 @@ import axios from 'axios';
 // == INTERFACE ET TYPE ==
 interface SignupState {
   email: string,
-  password: string;
+  password: string,
+  errorMessage: string,
+  errorColor: boolean,
+  verifiedEmail: boolean,
 };
 
 type EmailToken = {
@@ -15,6 +18,9 @@ type EmailToken = {
 const initialState: SignupState = {
   email: '',
   password: '',
+  errorMessage: '',
+  errorColor: false,
+  verifiedEmail: false,
 };
 
 // == THUNK ==
@@ -30,11 +36,11 @@ export const signupUser = createAsyncThunk(
   {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
   return await instance.post('/signup', user)
   .then((response) => {
-    console.log(response);
+    return fulfillWithValue(response.data);
   })
   .catch((error) => {
-    console.log(error.response.data.error.message,'message');
-    console.log(error.response.request.status, 'status');
+    return rejectWithValue(error.response.data.error.message);
+
   })
 });
 /**
@@ -46,10 +52,9 @@ export const returnEmailToken = createAsyncThunk(
   {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
   return await instance.post('/return-email-validation', emailToken)
   .then((response) => {
-    console.log(response.data);
+    return fulfillWithValue(response.data)
   })
   .catch((error) => {
-    // console.log(error, 'retour slice');
     return rejectWithValue(error.response.data.error);
   })
   }
@@ -60,17 +65,27 @@ const signupSlice = createSlice({
   name: 'signup',
   initialState,
   reducers: {
+    resetErrorMessageSignup: (state) => {
+      state.errorMessage = '';
+      state.errorColor = false;
+    }
   },
   extraReducers(builder) {
     builder
       .addCase(signupUser.pending, (state, action) => {
       })
       .addCase(signupUser.fulfilled, (state, action) => {
+        state.errorMessage = 'Un email de vérification viens de vous être envoyé';
+        state.errorColor = true;
       })
-      .addCase(signupUser.rejected, (state, action) => {
+      .addCase(signupUser.rejected, (state, action: any) => {
+        state.errorMessage = action.payload;
+        state.errorColor = false;
+        
       })
   },
 });
 
+export const { resetErrorMessageSignup } = signupSlice.actions;
 
 export default signupSlice.reducer;

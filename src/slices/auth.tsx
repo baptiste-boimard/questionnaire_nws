@@ -3,12 +3,12 @@ import axios from 'axios';
 
 // == INTERFACE ET TYPE ==
 interface AuthState {
-
+  errorMessage: string
 }
 
 // == INITIALSTATE ==
 const initialState: AuthState = {
-
+  errorMessage: '',
 };
 // == THUNK ==
 const instance = axios.create({
@@ -34,6 +34,9 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    resetErrorMessageLogin: (state => {
+      state.errorMessage = '';
+    })
   },
   extraReducers(builder) {
     builder
@@ -46,6 +49,6 @@ const authSlice = createSlice({
   },
 });
 
-// export const { } = authSlice.actions;
+export const { resetErrorMessageLogin } = authSlice.actions;
 
 export default authSlice.reducer;

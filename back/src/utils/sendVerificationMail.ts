@@ -8,26 +8,30 @@ type User = {
   emailToken: string
 }
 
-const sendVerificationMail = (user:User) => {
-  
-  const transporter = createMailTransporter();
+// Fonction d'envoi du mail de vérification qui retourne une promesse
+// permet de rendre l'envoi du mail asynchrone
+async function sendVerificationMail(user:User) {
+  return new Promise((resolve) => {
 
-  const mailOptions = {
-    from: '"Questionnaire NWS" <quest_bb_nws@outlook.fr>',
-    to: user.email,
-    subject: 'Verify your email...',
-    html: `<p>Hello ${user.name}, verify your email by clicking this link...</p>
-          <a href='${process.env.CLIENT_URL}/verify-email?emailToken=${user.emailToken}'>Verify Your
-          Email</a>`,
-  };
+    const transporter = createMailTransporter();
 
-  transporter.sendMail(mailOptions, (error: any, info: any) => {
-  if(error) {
-    console.log(error);
-  } else  {
-    console.log(`Verification email sent to ${user.email}`);
-    }
-  });
+    const mailOptions = {
+      from: '"Questionnaire NWS" <quest_bb_nws@outlook.fr>',
+      to: user.email,
+      subject: 'Verify your email...',
+      html: `<p>Hello, vérifie ton mail en cliquant sur ce lien...</p>
+            <a href='${process.env.CLIENT_URL}/verify-email?emailToken=${user.emailToken}'>Verify Your
+            Email</a>`,
+    };
+
+    transporter.sendMail(mailOptions, (error: any, info: any) => {
+      if(error) {
+        resolve(false);
+      } else  {
+          resolve(true);
+      }
+    });
+  })
 };
 
 export default sendVerificationMail;

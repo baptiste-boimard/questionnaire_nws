@@ -4,12 +4,14 @@ import { createSlice} from "@reduxjs/toolkit";
 interface ModalDisplayState {
   isOpenLogin: boolean,
   isOpenSignup: boolean,
+  isOpenVerify: boolean,
 }
 
 // == INITIALSTATE ==
 const initialState: ModalDisplayState = {
   isOpenLogin: false,
   isOpenSignup: false,
+  isOpenVerify: true,
 };
 
 // == SLICE ==
@@ -29,6 +31,7 @@ const modalDisplaySlice = createSlice({
     closeModal : (state: ModalDisplayState) => {
       state.isOpenLogin = false;
       state.isOpenSignup = false;
+      state.isOpenVerify = false;
     },
   },
   extraReducers: (builder) => {

@@ -5,7 +5,7 @@ import sendVerificationMail from '~/utils/sendVerificationMail';
 import CustomError from '~/handlers/CustomError';
 
 
-const signupController = {
+const signupController: any = {
 
   async signup(req: Request, res: Response, next:NextFunction) {
     console.log('signup', req.body);
@@ -19,28 +19,42 @@ const signupController = {
             email: req.body.email
           }
         });
+
         if(user) {
-          console.log('user trouvé');
+          console.log(user.dataValues);
+          if(user.dataValues.registred === true && user.dataValues.emailToken === null) {
+            const error = new CustomError('Un utiliisateur existe déjà avec cet email');   
+            next(error);
+          }
+          if(user.dataValues.registred === false && user.dataValues.email !== null) {
+            const error = new CustomError('Vous devez terminer l\'étape de vérification, vérifier vos emails');
+            next(error);
+          }
         } else {
-          console.log('notuser');
   
           const emailToken = crypto.randomBytes(64).toString('hex');
       
           const newUser: any = new User({
-            email: 'bouketin27@gmail.com',
+            email: req.body.email,
             password: req.body.password,
             registred: false,
             emailToken: emailToken,
           });
           await newUser.save();
-  
-          console.log('newUser ennrengisté');
-  
-          sendVerificationMail(newUser);
+          
+          const sucessSend = await sendVerificationMail(newUser);
+
+          if(sucessSend) {
+            res.send('Un email de vérification vient de nous être envoyé');
+          } else {
+            const error = new CustomError('Une erreur s\'est produite durant l\'envoi du mail');
+            next(error)
+          }
+          
+        
         }
       } catch (error) {
-        console.log(error);
-        
+        throw new CustomError('Une erreur s\'est produit, veuillez recommencer')
       }
     }   
   },

@@ -16,3 +16,17 @@
   border-top: none;
   margin-top: -1.5rem;
 }
+
+.errorMessage {
+  font-size: 0.75rem;
+  text-align: center;
+  margin-top: -1rem;
+
+  &.green {
+    color:green;
+  }
+
+  &.red {
+    color: red;
+  }
+}

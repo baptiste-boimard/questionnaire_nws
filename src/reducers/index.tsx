@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
   modalDisplayReducer: modalDisplaySlice,
   utilitiesReducer: utilitiesSlice,
   authReducer: authSlice,
-  signup: signupSlice,
+  signupReducer: signupSlice,
 });
 
 export default rootReducer;
