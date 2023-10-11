@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import User from '../models/user';
 import crypto from 'crypto';
 import sendVerificationMail from '~/utils/sendVerificationMail';
-import { UnknownConstraintError } from 'sequelize';
+import CustomError from '~/handlers/CustomError';
 
 
 const signupController = {
@@ -10,11 +10,7 @@ const signupController = {
   async signup(req: Request, res: Response, next:NextFunction) {
     console.log('signup', req.body);
     if (req.body.email === '' || req.body.password === '') {
-      console.log('erreur');
-      const error = 'Entrer un mail ou pass';
-      // const error = new Error('Vous devez entrer un email et un mot de passe');
-      // console.log(error, 'creation');
-      
+      const error = new CustomError('Vous devez taper un email et un mot de passe')
       next(error);
     } else {
       try {

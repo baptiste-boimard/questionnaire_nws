@@ -33,7 +33,8 @@ export const signupUser = createAsyncThunk(
     console.log(response);
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error.response.data.error.message,'message');
+    console.log(error.response.request.status, 'status');
   })
 });
 /**
@@ -48,7 +49,7 @@ export const returnEmailToken = createAsyncThunk(
     console.log(response.data);
   })
   .catch((error) => {
-    console.log(error, 'retour slice');
+    // console.log(error, 'retour slice');
     return rejectWithValue(error.response.data.error);
   })
   }
