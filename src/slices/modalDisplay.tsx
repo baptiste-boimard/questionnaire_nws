@@ -1,5 +1,6 @@
 import { createSlice} from "@reduxjs/toolkit";
 
+
 // == INTERFACE ET TYPE ==
 interface ModalDisplayState {
   isOpenLogin: boolean,
@@ -27,7 +28,7 @@ const modalDisplaySlice = createSlice({
     openSignup : (state: ModalDisplayState) => {
       state.isOpenSignup = !state.isOpenSignup;
     },
-    //Ferme les modales login & signup
+    //Ferme les modales
     closeModal : (state: ModalDisplayState) => {
       state.isOpenLogin = false;
       state.isOpenSignup = false;

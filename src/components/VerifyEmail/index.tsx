@@ -49,6 +49,7 @@ function VerifyEmail () {
               <Modal.Title>Vérification de votre email</Modal.Title>
             </Modal.Header>
             <Modal.Body>
+              Votre email a été verifié avec succès. Vous pouvez  maintenant vous connecter
             </Modal.Body>
             <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>Fermer</Button>

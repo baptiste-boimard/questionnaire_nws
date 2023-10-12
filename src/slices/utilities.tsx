@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { closeModal } from './modalDisplay';
 
 // == INTERFACE ET TYPE ==
 interface UtilitiesState {
@@ -31,7 +32,11 @@ const utilitiesSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-
+    builder
+      .addCase(closeModal, (state) => {        
+        state.email = '';
+        state.password = '';
+      })
   },
 });
 

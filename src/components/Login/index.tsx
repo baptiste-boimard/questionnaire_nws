@@ -16,7 +16,7 @@ import './style.scss';
 // == IMPORT ACTIONS ==
 import { closeModal } from '../../slices/modalDisplay';import { handleFieldChange } from '../../slices/utilities';
 import { fetchUser, resetErrorMessageLogin } from '../../slices/auth';
-import { signupUser, resetErrorMessageSignup, newEmailToken } from '../../slices/signup';
+import { signupUser, resetErrorMessageSignup, newEmail } from '../../slices/signup';
 
 // == INTERFACE & TYPE ==
 type ChangeFieldPayload = {
@@ -74,7 +74,7 @@ function Login () {
     e.preventDefault();
     const user: User = {email, password};
     dispatch(resetErrorMessageSignup());
-    dispatch(newEmailToken(user));
+    dispatch(newEmail(user));
   };
 
   return (

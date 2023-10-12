@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
+import { closeModal } from './modalDisplay';
 
 // == INTERFACE ET TYPE ==
 interface SignupState {
@@ -30,7 +31,7 @@ const initialState: SignupState = {
 // == THUNK ==
 const instance = axios.create({
   baseURL: 'http://localhost:3030',
-});        console.log('PENDING');
+}); 
 
 /**
  * Demande d'inscription envoyé au back
@@ -56,9 +57,7 @@ export const returnEmailToken = createAsyncThunk(
   async(emailToken: EmailToken,
   {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
   return await instance.post('/return-email-validation', emailToken)
-  .then((response) => {
-    console.log(response);
-    
+  .then((response) => {    
     return fulfillWithValue(response.data)
   })
   .catch((error) => {    
@@ -69,7 +68,7 @@ export const returnEmailToken = createAsyncThunk(
 /**
  * Demande d'envoi d'un nouvel email
  */
-export const newEmailToken = createAsyncThunk(
+export const newEmail = createAsyncThunk(
   'sign/newEmailToken',
   async(user: User, 
   {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
@@ -77,9 +76,7 @@ export const newEmailToken = createAsyncThunk(
   .then((response) => {
     return fulfillWithValue(response.data);
   })
-  .catch((error) => {
-    console.log(error.response.data.error);
-    
+  .catch((error) => {    
     return rejectWithValue(error.response.data.error.message)
   })
 });
@@ -100,30 +97,36 @@ const signupSlice = createSlice({
         state.spinner = true;
       })
       .addCase(signupUser.fulfilled, (state) => {
-        // state.spinner = false;
+        state.spinner = false;
         state.errorMessage = 'Un email de vérification viens de vous être envoyé';
         state.errorColor = true;
       })
       .addCase(signupUser.rejected, (state, action: any) => {
-        // state.spinner = false;
+        state.spinner = false;
         if(action.payload === 'Vous devez terminer l\'étape de vérification, vérifié vos emails') {          
           state.retryEmail = true;
         };
         state.errorMessage = action.payload;
         state.errorColor = false;
       })
-      .addCase(newEmailToken.pending, (state) => {
+      .addCase(newEmail.pending, (state) => {
         state.spinner = true;
       })
-      .addCase(newEmailToken.fulfilled, (state) => {
+      .addCase(newEmail.fulfilled, (state) => {
         state.spinner = false;
         state.errorMessage = 'Un email de vérification viens de vous être envoyé';
         state.errorColor = true;
       })
-      .addCase(newEmailToken.rejected, (state, action: any) => {
+      .addCase(newEmail.rejected, (state, action: any) => {
         state.spinner = false;
+        if (action.payload === 'Cet utilisateur n\'est pas inscrit, veuillez valider l\'inscription') {
+          state.retryEmail = false;
+        }
         state.errorMessage = action.payload;
         state.errorColor = false;
+      })
+      .addCase(closeModal, (state) => {        
+        state.verifiedEmail = false;
       })
   },
 });
