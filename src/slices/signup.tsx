@@ -8,6 +8,7 @@ interface SignupState {
   errorMessage: string,
   errorColor: boolean,
   verifiedEmail: boolean,
+  retryEmail: boolean,
 };
 
 type EmailToken = {
@@ -21,6 +22,7 @@ const initialState: SignupState = {
   errorMessage: '',
   errorColor: false,
   verifiedEmail: false,
+  retryEmail: false,
 };
 
 // == THUNK ==
@@ -31,7 +33,7 @@ const instance = axios.create({
  * Demande d'inscription envoyé au back
  */
 export const signupUser = createAsyncThunk(
-  'auth/signupUser',
+  'signup/signupUser',
   async(user: User,
   {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
   return await instance.post('/signup', user)
@@ -47,18 +49,40 @@ export const signupUser = createAsyncThunk(
  * Envoi au back la vérifiaction de l'emailToken reçu
  */
 export const returnEmailToken = createAsyncThunk(
-  'auth/returnEmailToken',
+  'signup/returnEmailToken',
   async(emailToken: EmailToken,
   {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
   return await instance.post('/return-email-validation', emailToken)
   .then((response) => {
+    console.log(response);
+    
     return fulfillWithValue(response.data)
   })
-  .catch((error) => {
+  .catch((error) => {    
     return rejectWithValue(error.response.data.error);
   })
-  }
-)
+});
+
+/**
+ * Demande d'envoi d'un nouvel email
+ */
+export const newEmailToken = createAsyncThunk(
+  'sign/newEmailToken',
+  async(user: User, 
+  {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
+  return await instance.post('/new-email-validation', user)
+  .then((response) => {
+    console.log(response.data);    
+    const ss:any = getState();
+    console.log('USER', ss.signupReducer);
+    
+    // dispatch(signupUser(user))
+    return fulfillWithValue(response.data);
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+});
 
 // == SLICE ==
 const signupSlice = createSlice({
@@ -81,7 +105,16 @@ const signupSlice = createSlice({
       .addCase(signupUser.rejected, (state, action: any) => {
         state.errorMessage = action.payload;
         state.errorColor = false;
-        
+        state.retryEmail = true;
+      })
+      .addCase(newEmailToken.fulfilled, (state, action) => {
+        state.errorMessage = 'Un email de vérification viens de vous être envoyé';
+        state.errorColor = true;
+      })
+      .addCase(newEmailToken.rejected, (state) => {
+        state.errorMessage = 'Une erreur est survenue, réessayez';
+        state.errorColor = false;
+        state.retryEmail = true;
       })
   },
 });

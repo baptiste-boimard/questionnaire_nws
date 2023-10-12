@@ -12,10 +12,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './style.scss';
 
 // == IMPORT ACTIONS ==
-// == IMPORT ACTIONS ==
 import { closeModal } from '../../slices/modalDisplay';import { handleFieldChange } from '../../slices/utilities';
 import { fetchUser, resetErrorMessageLogin } from '../../slices/auth';
-import { signupUser, resetErrorMessageSignup } from '../../slices/signup';
+import { signupUser, resetErrorMessageSignup, newEmailToken } from '../../slices/signup';
 
 // == INTERFACE & TYPE ==
 type ChangeFieldPayload = {
@@ -30,7 +29,7 @@ function Login () {
   // == CALL STORE ==
   const { isOpenLogin, isOpenSignup } = useAppSelector(state => state.modalDisplayReducer);
   const { email, password } = useAppSelector(state => state.utilitiesReducer);
-  const { errorMessage, errorColor } = useAppSelector(state => state.signupReducer);
+  const { errorMessage, errorColor, retryEmail } = useAppSelector(state => state.signupReducer);
 
   //== ACTIONS ==
   /**
@@ -53,7 +52,7 @@ function Login () {
    */
   const handleSubmitLogin = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const user: User = {email, password}
+    const user: User = {email, password};
     dispatch(resetErrorMessageLogin());
     dispatch(fetchUser(user));
   };
@@ -62,11 +61,20 @@ function Login () {
    */
   const handleSubmitSignup = (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const user: User = {email, password}
+    const user: User = {email, password};
     dispatch(resetErrorMessageSignup());
     dispatch(signupUser(user));
-    
-  }
+  };
+  /**
+   * Envoi un nouveau token
+   */
+  const handleNewMail = (e: React.FormEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const user: User = {email, password};
+    dispatch(resetErrorMessageSignup());
+    dispatch(newEmailToken(user));
+  };
+
   return (
     <>
       <Modal show={isOpenLogin}>
@@ -150,6 +158,9 @@ function Login () {
           <Modal.Footer>       
             <Button variant="secondary" onClick={handleClose}>Fermer</Button>
             <Button variant="primary" onClick={handleSubmitSignup}>Valider</Button>
+            {retryEmail && (
+              <Button variant="warning" onClick={handleNewMail}>Nouvel Email ?</Button>
+  )}
           </Modal.Footer>
         </Modal.Dialog>
       </div>

@@ -8,6 +8,7 @@ const router = express.Router();
 router.post('/signup', routerWrapper(signupController.signup));
 router.post('/login', routerWrapper(loginController.login));
 router.post('/return-email-validation', routerWrapper(signupController.returnToken));
+router.post('/new-email-validation', routerWrapper(signupController.newToken));
 
 
 module.exports = router;

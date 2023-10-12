@@ -2,7 +2,6 @@ import createMailTransporter from './createMailTransporter';
 
 type User = {
   email: string,
-  name?: string,
   password?: string,
   registred?: boolean,
   emailToken: string
@@ -19,15 +18,19 @@ async function sendVerificationMail(user:User) {
       from: '"Questionnaire NWS" <quest_bb_nws@outlook.fr>',
       to: user.email,
       subject: 'Verify your email...',
-      html: `<p>Hello, vérifie ton mail en cliquant sur ce lien...</p>
+      html: `<p>Hello, vérifie ton email en cliquant sur ce lien...</p>
             <a href='${process.env.CLIENT_URL}/verify-email?emailToken=${user.emailToken}'>Verify Your
             Email</a>`,
     };
 
     transporter.sendMail(mailOptions, (error: any, info: any) => {
       if(error) {
+        console.log('EMAI/L ENVOI ERREUR',error);
+        
         resolve(false);
       } else  {
+        console.log('EMAIL SEND ##############');
+        
           resolve(true);
       }
     });
