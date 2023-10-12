@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Spinner from 'react-bootstrap/Spinner';
+
 
 // == IMORT STYLE ==
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -29,7 +31,7 @@ function Login () {
   // == CALL STORE ==
   const { isOpenLogin, isOpenSignup } = useAppSelector(state => state.modalDisplayReducer);
   const { email, password } = useAppSelector(state => state.utilitiesReducer);
-  const { errorMessage, errorColor, retryEmail } = useAppSelector(state => state.signupReducer);
+  const { errorMessage, errorColor, retryEmail, spinner } = useAppSelector(state => state.signupReducer);
 
   //== ACTIONS ==
   /**
@@ -153,14 +155,23 @@ function Login () {
             </Form.Group>
           </Form>
           </Modal.Body>
+          <div className='alertContainer'>
+            {spinner && (
+              <Spinner animation="border" role="status" className='spinner-border'>
+                <span className="visually-hidden">Loading...</span>
+              </Spinner>
+            )}
+            <>
             {errorColor ? <p className='errorMessage green'>{errorMessage}</p>
                         : <p className='errorMessage red'>{errorMessage}</p>}
+                        </>
+          </div>
           <Modal.Footer>       
             <Button variant="secondary" onClick={handleClose}>Fermer</Button>
             <Button variant="primary" onClick={handleSubmitSignup}>Valider</Button>
             {retryEmail && (
               <Button variant="warning" onClick={handleNewMail}>Nouvel Email ?</Button>
-  )}
+            )}
           </Modal.Footer>
         </Modal.Dialog>
       </div>
