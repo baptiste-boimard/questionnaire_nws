@@ -31,8 +31,8 @@ function Login () {
   // == CALL STORE ==
   const { isOpenLogin, isOpenSignup } = useAppSelector(state => state.modalDisplayReducer);
   const { email, password } = useAppSelector(state => state.utilitiesReducer);
-  const { errorMessage, errorColor, retryEmail, spinner } = useAppSelector(state => state.signupReducer);
-
+  const { errorMessageSignup, errorColorSignup, retryEmail, spinnerSignup } = useAppSelector(state => state.signupReducer);
+  const { errorMessageLogin, errorColorLogin, spinnerLogin } = useAppSelector(state => state.authReducer);
   //== ACTIONS ==
   /**
    * Controle les champs d'email et de password
@@ -99,7 +99,6 @@ function Login () {
                               onChange={handleChange}
               />
             </Form.Group>
-
             <Form.Group className="mb-3" controlId="formBasicPassword">
               <Form.Control type="password" 
                               placeholder="Mot de passe"
@@ -113,6 +112,17 @@ function Login () {
             </Form.Group>
           </Form>
             </Modal.Body>
+            <div className='alertContainer'>
+            {spinnerLogin && (
+              <Spinner animation="border" role="status" className='spinner-border'>
+                <span className="visually-hidden"></span>
+              </Spinner>
+            )}
+            <>
+            {errorColorLogin ? <p className='errorMessage green'>{errorMessageLogin}</p>
+                             : <p className='errorMessage red'>{errorMessageLogin}</p>}
+                        </>
+          </div>
             <Modal.Footer>
               <Button variant="secondary" onClick={handleClose}>Fermer</Button>
               <Button variant="primary" onClick={handleSubmitLogin}>Valider</Button>
@@ -156,14 +166,14 @@ function Login () {
           </Form>
           </Modal.Body>
           <div className='alertContainer'>
-            {spinner && (
+            {spinnerSignup && (
               <Spinner animation="border" role="status" className='spinner-border'>
-                <span className="visually-hidden">Loading...</span>
+                <span className="visually-hidden"></span>
               </Spinner>
             )}
             <>
-            {errorColor ? <p className='errorMessage green'>{errorMessage}</p>
-                        : <p className='errorMessage red'>{errorMessage}</p>}
+            {errorColorSignup ? <p className='errorMessage green'>{errorMessageSignup}</p>
+                        : <p className='errorMessage red'>{errorMessageSignup}</p>}
                         </>
           </div>
           <Modal.Footer>       

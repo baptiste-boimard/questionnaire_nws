@@ -1,4 +1,5 @@
 import { createSlice} from "@reduxjs/toolkit";
+import { fetchUser } from "./auth";
 
 
 // == INTERFACE ET TYPE ==
@@ -36,6 +37,10 @@ const modalDisplaySlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder
+      .addCase(fetchUser.fulfilled, (state) => {
+        state.isOpenLogin = false;
+      })
   },
 });
 

@@ -21,7 +21,7 @@ const signupController: any = {
         //On recherche si un user existe deja avec cet email
         const user = await User.findOne({
           where: {
-            email: req.body.email
+            email: req.body.email,
           }
         });
         

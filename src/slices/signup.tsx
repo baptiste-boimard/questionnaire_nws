@@ -6,11 +6,11 @@ import { closeModal } from './modalDisplay';
 interface SignupState {
   email: string,
   password: string,
-  errorMessage: string,
-  errorColor: boolean,
+  errorMessageSignup: string,
+  errorColorSignup: boolean,
   verifiedEmail: boolean,
   retryEmail: boolean,
-  spinner: boolean,
+  spinnerSignup: boolean,
 };
 
 type EmailToken = {
@@ -21,11 +21,11 @@ type EmailToken = {
 const initialState: SignupState = {
   email: '',
   password: '',
-  errorMessage: '',
-  errorColor: false,
+  errorMessageSignup: '',
+  errorColorSignup: false,
   verifiedEmail: false,
   retryEmail: false,
-  spinner: false,
+  spinnerSignup: false,
 };
 
 // == THUNK ==
@@ -87,43 +87,43 @@ const signupSlice = createSlice({
   initialState,
   reducers: {
     resetErrorMessageSignup: (state) => {
-      state.errorMessage = '';
-      state.errorColor = false;
+      state.errorMessageSignup = '';
+      state.errorColorSignup = false;
     }
   },
   extraReducers(builder) {
     builder
       .addCase(signupUser.pending, (state) => {
-        state.spinner = true;
+        state.spinnerSignup = true;
       })
       .addCase(signupUser.fulfilled, (state) => {
-        state.spinner = false;
-        state.errorMessage = 'Un email de vérification viens de vous être envoyé';
-        state.errorColor = true;
+        state.spinnerSignup = false;
+        state.errorMessageSignup = 'Un email de vérification viens de vous être envoyé';
+        state.errorColorSignup = true;
       })
       .addCase(signupUser.rejected, (state, action: any) => {
-        state.spinner = false;
+        state.spinnerSignup = false;
         if(action.payload === 'Vous devez terminer l\'étape de vérification, vérifié vos emails') {          
           state.retryEmail = true;
         };
-        state.errorMessage = action.payload;
-        state.errorColor = false;
+        state.errorMessageSignup = action.payload;
+        state.errorColorSignup = false;
       })
       .addCase(newEmail.pending, (state) => {
-        state.spinner = true;
+        state.spinnerSignup = true;
       })
       .addCase(newEmail.fulfilled, (state) => {
-        state.spinner = false;
-        state.errorMessage = 'Un email de vérification viens de vous être envoyé';
-        state.errorColor = true;
+        state.spinnerSignup = false;
+        state.errorMessageSignup = 'Un email de vérification viens de vous être envoyé';
+        state.errorColorSignup = true;
       })
       .addCase(newEmail.rejected, (state, action: any) => {
-        state.spinner = false;
+        state.spinnerSignup = false;
         if (action.payload === 'Cet utilisateur n\'est pas inscrit, veuillez valider l\'inscription') {
           state.retryEmail = false;
         }
-        state.errorMessage = action.payload;
-        state.errorColor = false;
+        state.errorMessageSignup = action.payload;
+        state.errorColorSignup = false;
       })
       .addCase(closeModal, (state) => {        
         state.verifiedEmail = false;

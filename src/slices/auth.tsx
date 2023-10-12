@@ -3,12 +3,18 @@ import axios from 'axios';
 
 // == INTERFACE ET TYPE ==
 interface AuthState {
-  errorMessage: string
+  errorMessageLogin: string
+  errorColorLogin: boolean,
+  spinnerLogin: boolean,
+  isLogin: boolean,
 }
 
 // == INITIALSTATE ==
 const initialState: AuthState = {
-  errorMessage: '',
+  errorMessageLogin: '',
+  errorColorLogin: false,
+  spinnerLogin: false,
+  isLogin: false,
 };
 // == THUNK ==
 const instance = axios.create({
@@ -25,7 +31,10 @@ export const fetchUser = createAsyncThunk(
   console.log('arrivé fetch',user);
   return await instance.post('/login', user)
   .then((response) => {
-    console.log(response);
+    return fulfillWithValue(response.data)
+  })
+  .catch((error)=> {
+    return rejectWithValue(error.response.data.error.message);
   })
 });
 
@@ -35,20 +44,28 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     resetErrorMessageLogin: (state => {
-      state.errorMessage = '';
-    })
+      state.errorMessageLogin = '';
+    }),
+    disconnect: (state => {
+      state.isLogin = false;
+    }),
   },
   extraReducers(builder) {
     builder
-      .addCase(fetchUser.pending, (state, action) => {
+      .addCase(fetchUser.pending, (state) => {
+        state.spinnerLogin = true;
       })
-      .addCase(fetchUser.fulfilled, (state, action) => {
+      .addCase(fetchUser.fulfilled, (state) => {
+        state.spinnerLogin = false;
+        state.isLogin = true;
       })
-      .addCase(fetchUser.rejected, (state, action) => {
+      .addCase(fetchUser.rejected, (state, action: any) => {
+        state.spinnerLogin = false;
+        state.errorMessageLogin = action.payload;
       })
   },
 });
 
-export const { resetErrorMessageLogin } = authSlice.actions;
+export const { resetErrorMessageLogin, disconnect } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useNavigate } from 'react-router';
+
 
 
 // == IMPORT BOOTSTRAP ==
@@ -13,6 +15,7 @@ import { closeModal } from '../../slices/modalDisplay';
 
 function VerifyEmail () {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   //Récupération du token dans la barre d'adresse
   const [searchParams] = useSearchParams();
@@ -35,6 +38,7 @@ function VerifyEmail () {
    */
     const handleClose = () => {
       dispatch(closeModal());
+      navigate('/')
     };
 
   return (
