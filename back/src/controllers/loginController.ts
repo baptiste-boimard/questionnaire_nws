@@ -1,13 +1,13 @@
 import { Request, Response, NextFunction } from 'express';
 import CustomError from '~/handlers/CustomError';
-import User from '~/models';
-const bcrypt = require('bcrypt');
+import User from '~/models/user';
+import * as bcrypt from 'bcrypt';
 
 
 const loginController = {
 
+  //Fonction de login
   async login(req: Request, res: Response, next: NextFunction) {
-    console.log('login', req.body);
     try {
       //On recherche si un user existe avec cet email
       const existingUser = await User.findOne({
@@ -15,7 +15,8 @@ const loginController = {
           email: req.body.email,
         }
       });
-
+      console.log(existingUser);
+      
       //Erreur s'il n'existe pas en BDD
       if(!existingUser) {
         const error = new CustomError('Cet email n\'est pas enrengisté, veuillez vous inscrire en premier')
@@ -25,7 +26,7 @@ const loginController = {
       //On compare les passwords
       const match = await bcrypt.compare(
         req.body.password,
-        existingUser?.dataValues.password,
+        existingUser!.dataValues.password,
       );
 
       if(match) {

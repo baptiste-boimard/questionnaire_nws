@@ -1,12 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
-import User from '../models/user';
+import User, { UserAttributes } from '~/models/user';
 import crypto from 'crypto';
 import sendVerificationMail from '~/utils/sendVerificationMail';
 import CustomError from '~/handlers/CustomError';
-const bcrypt = require('bcrypt');
+import * as bcrypt from 'bcrypt';
 
-
-const signupController: any = {
+const signupController= {
 
   //Requete de demande d'inscription
   async signup(req: Request, res: Response, next:NextFunction) {
@@ -45,18 +44,17 @@ const signupController: any = {
           const hashPassword = await bcrypt.hash(req.body.password,10);          
 
           //Enrengistrement de notre user dans la BDD
-          const newUser: any = new User({
+          const newUser: Omit<UserAttributes, 'id'> = {
             email: req.body.email,
             password: hashPassword,
             registred: false,
             emailToken: emailToken,
-          });
+          };
           
-          await newUser.save();
+          await User.create(newUser);
           
           //Envoi du mail de vérification
           const sucessSend = await sendVerificationMail(newUser);
-
           //En cas de succès ou d'échec
           if(sucessSend) {
             res.send('Un email de vérification vient de nous être envoyé');
@@ -75,18 +73,22 @@ const signupController: any = {
   async returnToken(req: Request, res: Response, next: NextFunction) {
     
     //Recherche si user avec l'emailToken est présent dans la BDD
-    const userTryRegister: any = await User.findOne({
+    const userTryRegister = await User.findOne({
       where: {
         emailToken: req.body.emailToken,
       }
-    });
-
+    });    
     //Si présent on valide la vérification
     if(userTryRegister) {
-      userTryRegister.registred = true;
-      userTryRegister.emailToken = null;
-
-      await userTryRegister.save();
+   
+      await userTryRegister.update({
+        registred: true,
+        emailToken: null,
+      }, {
+        where: {
+          emailToken: req.body.emailToken,
+        }
+      });
     
     //Sinon on emet une erreur
     } else {

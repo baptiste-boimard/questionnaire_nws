@@ -1,11 +1,15 @@
-import { DataTypes, Sequelize, Model } from 'sequelize';
+import { DataTypes } from 'sequelize';
 import sequelize from '../database';
 
-class User extends Model {
+export interface UserAttributes {
+  id: number;
+  email: string;
+  password: string;
+  registred: boolean;
+  emailToken: string;
+}
 
-};
-
-User.init({
+const User = sequelize.define('User', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
@@ -25,9 +29,8 @@ User.init({
   emailToken: {
     type: DataTypes.STRING,
   }
-    
-}, {
-  sequelize,
+},
+{
   tableName: 'user'
 });
 

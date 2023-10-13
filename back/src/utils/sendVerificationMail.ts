@@ -1,15 +1,10 @@
+import { UserAttributes } from '~/models/user';
 import createMailTransporter from './createMailTransporter';
 
-type User = {
-  email: string,
-  password?: string,
-  registred?: boolean,
-  emailToken: string
-}
 
 // Fonction d'envoi du mail de vérification qui retourne une promesse
 // permet de rendre l'envoi du mail asynchrone
-async function sendVerificationMail(user:User) {
+async function sendVerificationMail(user: Omit<UserAttributes, 'id'>) {
   return new Promise((resolve) => {
 
     const transporter = createMailTransporter();

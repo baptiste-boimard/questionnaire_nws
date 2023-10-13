@@ -28,7 +28,6 @@ export const fetchUser = createAsyncThunk(
   'auth/fetchUser',
   async(user: User,
   {dispatch, getState, rejectWithValue, fulfillWithValue}) => {
-  console.log('arrivé fetch',user);
   return await instance.post('/login', user)
   .then((response) => {
     return fulfillWithValue(response.data)
