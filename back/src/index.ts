@@ -33,7 +33,7 @@ app.use(express.json({extended: true}));
 // router.options('*', cors(options));
 
 app.use((req: Request ,res: Response ,next: NextFunction) => {
-  res.header('Access-Control-Allow-Origin', 'http://51.75.133.175:3000');
+  res.header('Access-Control-Allow-Origin', 'http://51.75.133.155:3000');
   res.header(`Access-Control-Allow-Methods`, `GET, PATCH, PUT, POST, DELETE, OPTIONS, HEAD`);
   res.header(`Access-Control-Allow-Headers`, `Origin, X-Requested-With,Content-Type,Authorization, Accept`);
   // A controler, je n'arrive pas à le typer correctement à part avec accept au lieu de true
