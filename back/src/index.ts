@@ -47,7 +47,7 @@ app.use(express.static('docs'));
 // Middleware pour attraper les erreurs
 app.use(handleError);
 
-app.listen(PORT,'51.75.133.155', () => {
+app.listen(PORT,'0.0.0.0', () => {
   console.log(`Listening on http://localhost:${PORT}`);
 });
 
