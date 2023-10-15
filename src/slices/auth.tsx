@@ -18,7 +18,7 @@ const initialState: AuthState = {
 };
 // == THUNK ==
 const instance = axios.create({
-  baseURL: 'http://localhost:3030',
+  baseURL: 'http://51.75.133.155:3030',
 });
 
 /**

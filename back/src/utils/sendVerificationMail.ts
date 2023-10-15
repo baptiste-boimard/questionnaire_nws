@@ -14,18 +14,14 @@ async function sendVerificationMail(user: Omit<UserAttributes, 'id'>) {
       to: user.email,
       subject: 'Verify your email...',
       html: `<p>Hello, vérifie ton email en cliquant sur ce lien...</p>
-            <a href='${process.env.CLIENT_URL}/verify-email?emailToken=${user.emailToken}'>Verify Your
+            <a href='http://51.75.133.155:3000/verify-email?emailToken=${user.emailToken}'>Verify Your
             Email</a>`,
     };
 
     transporter.sendMail(mailOptions, (error: any, info: any) => {
-      if(error) {
-        console.log('EMAI/L ENVOI ERREUR',error);
-        
+      if(error) {        
         resolve(false);
-      } else  {
-        console.log('EMAIL SEND ##############');
-        
+      } else  {        
           resolve(true);
       }
     });
