@@ -2,14 +2,14 @@ import { DataTypes } from 'sequelize';
 import sequelize from '../database';
 
 export interface UserAttributes {
-  id: number;
+  id?: number;
   email: string;
   password: string;
   registred: boolean;
   emailToken: string;
 }
 
-const User = sequelize.define('User', {
+const User = sequelize.define('ugitser', {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,

@@ -36,8 +36,12 @@
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
+    ],
+    "rules": {
+      "no-restricted-globals": ["error", "event", "fdescribe"]
+  }
   },
+  
   "browserslist": {
     "production": [
       ">0.2%",

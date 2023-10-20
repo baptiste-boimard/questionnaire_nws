@@ -1,0 +1,65 @@
+version: "3.8"
+
+services:
+  client:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"  # Si votre client utilise le port 3000, adaptez au besoin
+    depends_on:
+      - back
+
+  back:
+    build:
+      context: ./back
+    ports:
+      - "3030:3030"  # Si votre serveur utilise le port 8080, adaptez au besoin
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    environment:
+      POSTGRES_USER: your_username
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_database
+    ports:
+      - "5432:5432"
+
+
+# services:
+#   react:  
+#     container_name: dockereact
+#     image: dockereact-i
+#     restart: always
+#     build: 
+#       # context: ./client
+#       dockerfile: ./client/Dockerfile.react
+#     ports:
+#       - 3000:3000
+
+#   back: 
+#     container_name: dockernode
+#     image: dockernode-i
+#     restart: always
+#     build:
+#       # context: ./back
+#       dockerfile: ./back/Dockerfile.back
+#     ports: 
+#       - 3030:3030
+
+#   postgres: 
+#     container_name: dockerpostgres
+#     image: dockerpostgres-i
+#     restart: unless-stopped
+#     build:
+#       # context: ./dockerfile
+#       dockerfile: ./dockerfile/Dockerfile.postgres
+#     ports:
+#       - "5432:5432"
+#     environment: 
+#       - POSTGRES_HOST_AUTH_METHOD=trust
+#       - POSTGRES_DB = quest
+#       - POSTGRES_USER = quest
+#       - POSTGRES_PASSWORD = quest
